@@ -10,13 +10,11 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -25,14 +23,23 @@ export const SignUp = () => {
 
     setLoading(true);
     try {
-      await axios.post(`${BaseUrl}/api/auth/register`, {
+      // Call backend register API
+      const response = await axios.post(`${BaseUrl}/api/auth/register`, {
         name,
         email,
         password,
       });
 
-      setSuccess("Account created successfully 🎉");
-      setTimeout(() => navigate("/tickets"), 1500);
+      // Get token from response (backend should return token after registration)
+      const { token } = response.data;
+
+      if (token) {
+        // Save JWT token in localStorage
+        localStorage.setItem("token", token);
+
+        // Redirect to tickets page
+        navigate("/tickets");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!");
     }
@@ -45,18 +52,10 @@ export const SignUp = () => {
       style={{ background: "linear-gradient(135deg, #f0f4f8, #d9e2ec)" }}
     >
       <div className="card shadow-lg rounded-5 p-5" style={{ width: "420px" }}>
-        <h2
-          className="text-center mb-2 fw-bold"
-          style={{ color: "#1f2a38", fontSize: "24px" }}
-        >
-          Create Account
-        </h2>
-        <p className="text-center text-muted mb-4" style={{ fontSize: "14px" }}>
-          Sign up to manage your tickets
-        </p>
+        <h2 className="text-center mb-2 fw-bold">Create Account</h2>
+        <p className="text-center text-muted mb-4">Sign up to manage your tickets</p>
 
         {error && <div className="alert alert-danger py-2">{error}</div>}
-        {success && <div className="alert alert-success py-2">{success}</div>}
 
         <form onSubmit={handleSignUp}>
           <div className="mb-3">
@@ -105,7 +104,7 @@ export const SignUp = () => {
 
           <button
             type="submit"
-            className="btn btn-primary w-100 rounded-pill shadow"
+            className="btn text-white w-100 rounded-pill shadow"
             style={{
               padding: "10px",
               fontSize: "16px",

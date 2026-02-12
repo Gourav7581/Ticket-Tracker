@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BaseUrl } from "../Service/BaseUrl";
 
 export const CreateTicket = () => {
   const navigate = useNavigate();
@@ -11,14 +13,36 @@ export const CreateTicket = () => {
     priority: "Medium",
   });
 
+  const [loading, setLoading] = useState(false);
+
+  const token = localStorage.getItem("token"); // JWT token from login
+
   const handleChange = (e) => {
     setTicket({ ...ticket, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(ticket);
-    navigate("/tickets");
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${BaseUrl}/api/tickets`,
+        ticket,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Ticket created:", response.data.ticket);
+      setLoading(false);
+      navigate("/tickets"); // navigate to tickets list
+    } catch (error) {
+      console.error("Error creating ticket:", error.response?.data || error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -29,39 +53,27 @@ export const CreateTicket = () => {
         padding: "30px",
       }}
     >
-      {/* Back Button – Outside Card */}
+      {/* Back Button */}
       <button
         className="btn btn-light rounded-pill shadow-sm px-3"
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "20px",
-        }}
+        style={{ position: "absolute", top: "20px", left: "20px" }}
         onClick={() => navigate("/tickets")}
       >
         ← Back
       </button>
 
-      {/* Center Card */}
+      {/* Card */}
       <div className="d-flex align-items-center justify-content-center h-100">
-        <div
-          className="card border-0 shadow-lg p-5"
-          style={{ width: "520px", borderRadius: "22px" }}
-        >
-          {/* Header */}
+        <div className="card border-0 shadow-lg p-5" style={{ width: "520px", borderRadius: "22px" }}>
           <div className="text-center mb-4">
             <h3 className="fw-bold mb-1">🎫 Create New Ticket</h3>
-            <p className="text-muted small">
-              Submit your issue and track progress easily
-            </p>
+            <p className="text-muted small">Submit your issue and track progress easily</p>
           </div>
 
           <form onSubmit={handleSubmit}>
             {/* Title */}
             <div className="mb-3">
-              <label className="form-label small fw-semibold">
-                Ticket Title
-              </label>
+              <label className="form-label small fw-semibold">Ticket Title</label>
               <input
                 type="text"
                 className="form-control rounded-pill shadow-sm"
@@ -75,9 +87,7 @@ export const CreateTicket = () => {
 
             {/* Description */}
             <div className="mb-3">
-              <label className="form-label small fw-semibold">
-                Description
-              </label>
+              <label className="form-label small fw-semibold">Description</label>
               <textarea
                 className="form-control shadow-sm"
                 rows="4"
@@ -93,9 +103,7 @@ export const CreateTicket = () => {
             {/* Status & Priority */}
             <div className="row mb-4">
               <div className="col-md-6 mb-3 mb-md-0">
-                <label className="form-label small fw-semibold">
-                  Status
-                </label>
+                <label className="form-label small fw-semibold">Status</label>
                 <select
                   className="form-select rounded-pill shadow-sm"
                   name="status"
@@ -109,9 +117,7 @@ export const CreateTicket = () => {
               </div>
 
               <div className="col-md-6">
-                <label className="form-label small fw-semibold">
-                  Priority
-                </label>
+                <label className="form-label small fw-semibold">Priority</label>
                 <select
                   className="form-select rounded-pill shadow-sm"
                   name="priority"
@@ -139,12 +145,12 @@ export const CreateTicket = () => {
                 type="submit"
                 className="btn text-white rounded-pill px-5 shadow"
                 style={{
-                  background:
-                    "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+                  background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
                   border: "none",
                 }}
+                disabled={loading}
               >
-                Create Ticket
+                {loading ? "Creating..." : "Create Ticket"}
               </button>
             </div>
           </form>

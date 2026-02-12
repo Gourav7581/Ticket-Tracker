@@ -16,9 +16,21 @@ export const Login = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${BaseUrl}/api/auth/login`, { email, password });
-      console.log(data);
-      navigate("/tickets");
+      const { data } = await axios.post(`${BaseUrl}/api/auth/login`, {
+        email,
+        password,
+      });
+
+      // Get token from backend
+      const { token } = data;
+
+      if (token) {
+        // Save JWT token in localStorage
+        localStorage.setItem("token", token);
+
+        // Redirect to tickets page
+        navigate("/tickets");
+      }
     } catch (err) {
       setError(
         err.response && err.response.data.message

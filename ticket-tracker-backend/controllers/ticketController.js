@@ -6,7 +6,7 @@ exports.createTicket = async (req, res) => {
     const { title, description, status, priority } = req.body;
 
     const ticket = await Ticket.create({
-      user: req.user._id, // user id from JWT
+      user: req.user._id, 
       title,
       description,
       status,
@@ -22,7 +22,7 @@ exports.createTicket = async (req, res) => {
   }
 };
 
-// Get My Tickets
+// Get  Tickets
 exports.getMyTickets = async (req, res) => {
   try {
     const tickets = await Ticket.find({ user: req.user._id }).sort({
