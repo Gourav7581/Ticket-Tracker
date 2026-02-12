@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./Pages/Login.jsx";
+import { SignUp } from "./Pages/SignUp.jsx";
 import { TicketList } from "./Pages/TicketList.jsx";
 import { CreateTicket } from "./Pages/CreateTicket.jsx";
 function App() {

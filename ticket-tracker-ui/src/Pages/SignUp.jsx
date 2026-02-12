@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BaseUrl } from "../Service/BaseUrl";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -16,53 +17,53 @@ export const SignUp = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
-    setLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      setLoading(false);
       return;
     }
 
+    setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post(`${BaseUrl}/api/auth/register`, {
         name,
         email,
         password,
       });
 
-      setSuccess(data.message);
-      setTimeout(() => {
-        navigate("/"); // Redirect to login page after success
-      }, 1500);
+      setSuccess("Account created successfully 🎉");
+      setTimeout(() => navigate("/tickets"), 1500);
     } catch (err) {
-      setError(
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : "Something went wrong!"
-      );
+      setError(err.response?.data?.message || "Something went wrong!");
     }
-
     setLoading(false);
   };
 
   return (
-    <div className="bg-light vh-100 d-flex align-items-center justify-content-center">
-      <div className="card shadow p-4" style={{ width: "420px" }}>
-        <h3 className="text-center mb-2">Sign Up</h3>
-        <p className="text-center text-muted mb-4">
-          Create your account to start managing tickets
+    <div
+      className="vh-100 d-flex align-items-center justify-content-center"
+      style={{ background: "linear-gradient(135deg, #f0f4f8, #d9e2ec)" }}
+    >
+      <div className="card shadow-lg rounded-5 p-5" style={{ width: "420px" }}>
+        <h2
+          className="text-center mb-2 fw-bold"
+          style={{ color: "#1f2a38", fontSize: "24px" }}
+        >
+          Create Account
+        </h2>
+        <p className="text-center text-muted mb-4" style={{ fontSize: "14px" }}>
+          Sign up to manage your tickets
         </p>
 
-        {error && <div className="alert alert-danger">{error}</div>}
-        {success && <div className="alert alert-success">{success}</div>}
+        {error && <div className="alert alert-danger py-2">{error}</div>}
+        {success && <div className="alert alert-success py-2">{success}</div>}
 
         <form onSubmit={handleSignUp}>
           <div className="mb-3">
-            <label className="form-label">Name</label>
             <input
               type="text"
-              className="form-control"
+              className="form-control rounded-pill border-0 shadow-sm"
+              placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -70,10 +71,10 @@ export const SignUp = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Email</label>
             <input
               type="email"
-              className="form-control"
+              className="form-control rounded-pill border-0 shadow-sm"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -81,34 +82,51 @@ export const SignUp = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Password</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control rounded-pill border-0 shadow-sm"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Confirm Password</label>
+          <div className="mb-4">
             <input
               type="password"
-              className="form-control"
+              className="form-control rounded-pill border-0 shadow-sm"
+              placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
 
-          <button className="btn btn-primary w-100" disabled={loading}>
-            {loading ? "Signing Up..." : "Sign Up"}
+          <button
+            type="submit"
+            className="btn btn-primary w-100 rounded-pill shadow"
+            style={{
+              padding: "10px",
+              fontSize: "16px",
+              background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+              border: "none",
+            }}
+            disabled={loading}
+          >
+            {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center mt-3">
-          Already have an account? <a href="/">Login here</a>
+        <p className="text-center mt-4 text-muted" style={{ fontSize: "14px" }}>
+          Already have an account?{" "}
+          <span
+            className="text-primary fw-semibold"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          >
+            Login
+          </span>
         </p>
       </div>
     </div>
