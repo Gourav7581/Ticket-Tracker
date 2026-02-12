@@ -27,6 +27,16 @@ npx nodemon server.js
 # Backend will run on
 http://localhost:5000
 
+Backend Packages Used:
+- express
+- mongoose
+- jsonwebtoken
+- bcryptjs
+- cors
+- dotenv
+- nodemon (dev dependency)
+
+
 # Navigate to frontend directory
 cd ticket-tracker-ui
 
@@ -36,4 +46,12 @@ npm start
 # Frontend will be available at
 http://localhost:3000
 
+Frontend Packages Used:
+- react
+- react-dom
+- react-router-dom
+- axios
+- bootstrap
+- react-scripts
+- @testing-library/*
 
