@@ -25,10 +25,7 @@ exports.registerUser = async (req, res) => {
   });
 
   res.status(201).json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    token: generateToken(user._id),
+     message: "Registered successfully!",
   });
 };
 
@@ -39,6 +36,7 @@ exports.loginUser = async (req, res) => {
   const user = await User.findOne({ email });
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
+        
       _id: user._id,
       name: user.name,
       email: user.email,
