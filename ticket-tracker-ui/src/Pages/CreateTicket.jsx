@@ -15,7 +15,7 @@ export const CreateTicket = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token"); // JWT token from login
+  const token = localStorage.getItem("token"); 
 
   const handleChange = (e) => {
     setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -38,7 +38,7 @@ export const CreateTicket = () => {
 
       console.log("Ticket created:", response.data.ticket);
       setLoading(false);
-      navigate("/tickets"); // navigate to tickets list
+      navigate("/tickets"); 
     } catch (error) {
       console.error("Error creating ticket:", error.response?.data || error.message);
       setLoading(false);

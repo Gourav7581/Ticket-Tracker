@@ -21,14 +21,11 @@ export const Login = () => {
         password,
       });
 
-      // Get token from backend
       const { token } = data;
 
       if (token) {
-        // Save JWT token in localStorage
         localStorage.setItem("token", token);
 
-        // Redirect to tickets page
         navigate("/tickets");
       }
     } catch (err) {
