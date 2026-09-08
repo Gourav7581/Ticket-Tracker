@@ -40,15 +40,13 @@ export const Login = () => {
   };
 
   return (
-    <div
-      className="vh-100 d-flex align-items-center justify-content-center"
-      style={{ background: "linear-gradient(135deg, #f0f4f8, #d9e2ec)" }}
-    >
-      <div className="card shadow-lg rounded-5 p-5" style={{ width: "420px" }}>
-        <h2 className="text-center mb-3 fw-bold" style={{ color: "#1f2a38", fontSize: "24px" }}>
+    <div className="auth-page">
+      <div className="card auth-card border-0">
+        <div className="auth-icon" aria-hidden="true">T</div>
+        <h2 className="text-center mb-2 fw-bold auth-title">
           Ticket Tracker
         </h2>
-        <p className="text-center text-muted mb-4" style={{ fontSize: "14px" }}>
+        <p className="text-center text-muted mb-4 auth-subtitle">
           Login to manage your tickets
         </p>
 
@@ -58,7 +56,7 @@ export const Login = () => {
           <div className="mb-3">
             <input
               type="email"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +67,7 @@ export const Login = () => {
           <div className="mb-4">
             <input
               type="password"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -79,20 +77,14 @@ export const Login = () => {
 
           <button
             type="submit"
-            className="btn btn-primary w-100 rounded-pill shadow"
-            style={{
-              padding: "10px",
-              fontSize: "16px",
-              background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
-              border: "none",
-            }}
+            className="btn auth-primary-btn w-100"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-muted" style={{ fontSize: "14px" }}>
+        <p className="text-center mt-4 mb-0 text-muted auth-footer">
           Don't have an account?{" "}
           <span
             className="text-primary fw-semibold"

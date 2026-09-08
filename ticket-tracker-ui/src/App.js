@@ -4,6 +4,7 @@ import { Login } from "./Pages/Login.jsx";
 import { SignUp } from "./Pages/SignUp.jsx";
 import { TicketList } from "./Pages/TicketList.jsx";
 import { CreateTicket } from "./Pages/CreateTicket.jsx";
+import "./App.css";
 function App() {
   return (
     <BrowserRouter>

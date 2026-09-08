@@ -47,13 +47,11 @@ export const SignUp = () => {
   };
 
   return (
-    <div
-      className="vh-100 d-flex align-items-center justify-content-center"
-      style={{ background: "linear-gradient(135deg, #f0f4f8, #d9e2ec)" }}
-    >
-      <div className="card shadow-lg rounded-5 p-5" style={{ width: "420px" }}>
-        <h2 className="text-center mb-2 fw-bold">Create Account</h2>
-        <p className="text-center text-muted mb-4">Sign up to manage your tickets</p>
+    <div className="auth-page">
+      <div className="card auth-card auth-card-signup border-0">
+        <div className="auth-icon" aria-hidden="true">T</div>
+        <h2 className="text-center mb-2 fw-bold auth-title">Create Account</h2>
+        <p className="text-center text-muted mb-4 auth-subtitle">Sign up to manage your tickets</p>
 
         {error && <div className="alert alert-danger py-2">{error}</div>}
 
@@ -61,7 +59,7 @@ export const SignUp = () => {
           <div className="mb-3">
             <input
               type="text"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -72,7 +70,7 @@ export const SignUp = () => {
           <div className="mb-3">
             <input
               type="email"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -83,7 +81,7 @@ export const SignUp = () => {
           <div className="mb-3">
             <input
               type="password"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -94,7 +92,7 @@ export const SignUp = () => {
           <div className="mb-4">
             <input
               type="password"
-              className="form-control rounded-pill border-0 shadow-sm"
+              className="form-control auth-input"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -104,20 +102,14 @@ export const SignUp = () => {
 
           <button
             type="submit"
-            className="btn text-white w-100 rounded-pill shadow"
-            style={{
-              padding: "10px",
-              fontSize: "16px",
-              background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
-              border: "none",
-            }}
+            className="btn auth-primary-btn w-100"
             disabled={loading}
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-muted" style={{ fontSize: "14px" }}>
+        <p className="text-center mt-4 mb-0 text-muted auth-footer">
           Already have an account?{" "}
           <span
             className="text-primary fw-semibold"
